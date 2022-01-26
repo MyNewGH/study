@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Function.prototype.MyBind = function(con){
+            if(typeof this !== "function"){
+                new Error("请使用函数")
+            }
+            let args = [...arguments].slice(1);
+            let fn = this;
+            return function Fn(){
+                console.log(this);
+                console.log(this instanceof Fn);
+                return fn.apply(
+                    this instanceof Fn?this:con,
+                    args.concat(...arguments)
+                )
+            }
+        }
+        function A(){
+            this.name = 'x'
+            return this.name
+        }
+        const A1 = A.MyBind()
+        console.log(A1);
+        const a2 = new A1()
+        console.log(a2);
+        
+        // const b = new A()
+        // console.log(b);
+        // function bx() {
+        //     console.log("4");
+        // }
+        // const nb = bx.bind(b);
+        
+    </script>
+</body>
+</html>
